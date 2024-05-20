@@ -1,89 +1,94 @@
 "use client";
-
 import { TransactionType } from "@/lib/types";
 import TransactionLink from "./TransactionLink";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
+import { TransactionsFilter } from "./TransactionsFilter";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuRadioGroup,
-	DropdownMenuRadioItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-const TransactionsLister = ({ data }: { data: TransactionType[] }) => {
-	// filter state from url
+import { Suspense, useMemo } from "react";
+import Link from "next/link";
+import { Button } from "../ui/button";
+import { PackagePlus } from "lucide-react";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import TransactionsListerLoading from "./loadingUi/LoadingTrList";
+
+const TransactionsLister = ({ data }: { data: TransactionType[] | null }) => {
 	const pathname = usePathname();
-	const searchParams = useSearchParams();
-	const filterparam = searchParams.get("filter");
-	const typeparam = searchParams.get("type");
-	const amountsort = searchParams.get("sortedamount");
-	const categoryParam = searchParams.get("category");
+	const params = useSearchParams();
+	const typeParams: string | null = params.get("type");
+	const amountParams: string | null = params.get("amount");
+	const categoryParams: string | null = params.get("category");
+	const Router = useRouter();
 
-	const { replace } = useRouter();
-	// usememo to filter data by type or amount or date as acquired from the url searchparams
+	const filteredData = useMemo(() => {
+		if (!data) return null;
 
-	// : check if any of the search params are present in the url
+		let result = data.filter((transaction) => {
+			let matches = true;
 
-	// updates params
-	function handleSearchParams(paramItem: string | null, paramValue: string) {
-		const params = new URLSearchParams(searchParams);
-		if (paramItem)
-			// {
-			params.set(paramItem, paramValue);
-		// } else {
-		// params.delete(paramItem);
-		// }
+			if (typeParams) {
+				matches = matches && transaction.type === typeParams;
+			}
+			if (categoryParams) {
+				matches = matches && transaction.category === categoryParams;
+			}
 
-		replace(`${pathname}?${params.toString()}`);
+			return matches;
+		});
+
+		if (amountParams) {
+			result = result.slice().sort((a, b) => {
+				if (amountParams === "asc") {
+					return a.amount - b.amount;
+				} else if (amountParams === "desc") {
+					return b.amount - a.amount;
+				}
+				return 0;
+			});
+		}
+
+		return result;
+	}, [data, typeParams, amountParams, categoryParams]);
+
+	if (!data || data.length === 0) {
+		return (
+			<div className='w-full flex flex-col gap-8 '>
+				<p className='text-center text-xl'>No transactions found.</p>
+				<Button
+					className={cn("mx-auto")}
+					onClick={() => Router.push("/transactions/new")}>
+					Add transaction
+					<span className='ml-2'>
+						<PackagePlus className='w-5 h-5 text-orange-500' />
+					</span>
+				</Button>
+			</div>
+		);
 	}
 
 	return (
 		<div className='w-full mx-auto flex flex-col gap-4'>
 			<div className='w-full mx-auto px-2 flex items-center'>
-				<ScrollArea className='w-full whitespace-nowrap rounded-md border spacing-x-4 mx-auto'>
-					<div className='mx-auto flex w-max space-x-4 p-3 text-white dark:text-cyan-400'>
-						<Badge onClick={() => handleSearchParams("type", "expenses")}>
-							Expenses
-						</Badge>
-						<Badge onClick={() => handleSearchParams("type", "savings")}>
-							Savings
-						</Badge>
-						<Badge onClick={() => handleSearchParams("type", "investment")}>
-							Investments
-						</Badge>
-						<Badge onClick={() => handleSearchParams("type", "transfer")}>
-							Transfer
-						</Badge>
-						<Badge onClick={() => handleSearchParams("type", "debt")}>
-							Debt
-						</Badge>
-					</div>
-					<ScrollBar orientation='horizontal' />
-				</ScrollArea>
+				<TransactionsFilter />
 			</div>
 
 			<ScrollArea
 				className={cn("mx-auto w-full flex flex-col gap-6 px-2 max-h-[600px]")}>
-				{
-					// loop through transactions
-					data.map((transaction) => (
-						<>
-							<TransactionLink
-								transaction={transaction}
-								key={transaction.id}
-							/>
-
+				{filteredData && filteredData?.length > 0 ? (
+					filteredData?.map((transaction) => (
+						<Suspense
+							key={transaction.id}
+							fallback={<TransactionsListerLoading />}>
+							<TransactionLink transaction={transaction} />
 							<Separator className='my-1 dark:bg-transparent' />
-						</>
+						</Suspense>
 					))
-				}
+				) : (
+					<p className='text-lg text-primary text-centre'>
+						No data on selected filters
+					</p>
+				)}
 			</ScrollArea>
 		</div>
 	);

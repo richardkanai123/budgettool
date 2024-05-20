@@ -1,8 +1,8 @@
 import { TransactionType } from "@/lib/types";
 
-export const transactions: TransactionType[] = [
+export const transactions: TransactionType[] | [] = [
 	{
-		id: "1",
+		id: "1424353",
 		date: "2021-01-01",
 		amount: 100,
 		type: "expense",
@@ -10,7 +10,7 @@ export const transactions: TransactionType[] = [
 		description: "Food for the week",
 	},
 	{
-		id: "2",
+		id: "23424",
 		date: "2021-01-02",
 		amount: 200,
 		type: "income",
@@ -26,7 +26,7 @@ export const transactions: TransactionType[] = [
 		description: "Concert tickets",
 	},
 	{
-		id: "4",
+		id: "2334",
 		date: "2021-01-04",
 		amount: 400,
 		type: "income",
@@ -34,7 +34,7 @@ export const transactions: TransactionType[] = [
 		description: "Bob's debt payment for the week",
 	},
 	{
-		id: "5",
+		id: "543",
 		date: "2021-01-05",
 		amount: 400,
 		type: "income",
@@ -42,7 +42,7 @@ export const transactions: TransactionType[] = [
 		description: "Interest for the week",
 	},
 	{
-		id: "6",
+		id: "16",
 		date: "2023-01-04",
 		amount: 450,
 		type: "saving",
@@ -50,7 +50,7 @@ export const transactions: TransactionType[] = [
 		description: "Saving for the week",
 	},
 	{
-		id: "7",
+		id: "27",
 		date: "2021-01-06",
 		amount: 150,
 		type: "expense",
@@ -58,7 +58,7 @@ export const transactions: TransactionType[] = [
 		description: "Utilities bill for the month",
 	},
 	{
-		id: "8",
+		id: "83",
 		date: "2021-01-07",
 		amount: 500,
 		type: "income",
@@ -66,7 +66,7 @@ export const transactions: TransactionType[] = [
 		description: "Freelance project payment",
 	},
 	{
-		id: "9",
+		id: "93",
 		date: "2021-01-08",
 		amount: 250,
 		type: "expense",
@@ -74,7 +74,7 @@ export const transactions: TransactionType[] = [
 		description: "Monthly transportation pass",
 	},
 	{
-		id: "10",
+		id: "10454",
 		date: "2021-01-09",
 		amount: 600,
 		type: "income",
@@ -82,7 +82,7 @@ export const transactions: TransactionType[] = [
 		description: "Year-end bonus",
 	},
 	{
-		id: "11",
+		id: "11434",
 		date: "2021-01-10",
 		amount: 700,
 		type: "investment",
@@ -90,7 +90,7 @@ export const transactions: TransactionType[] = [
 		description: "Stocks investment",
 	},
 	{
-		id: "12",
+		id: "1233",
 		date: "2021-01-11",
 		amount: 800,
 		type: "transfer",
@@ -98,7 +98,7 @@ export const transactions: TransactionType[] = [
 		description: "Transfer to savings account",
 	},
 	{
-		id: "13",
+		id: "143",
 		date: "2021-01-12",
 		amount: 350,
 		type: "expense",
@@ -106,7 +106,7 @@ export const transactions: TransactionType[] = [
 		description: "Doctor visit",
 	},
 	{
-		id: "14",
+		id: "145",
 		date: "2021-01-13",
 		amount: 1000,
 		type: "expense",
@@ -114,7 +114,7 @@ export const transactions: TransactionType[] = [
 		description: "Monthly rent",
 	},
 	{
-		id: "15",
+		id: "150",
 		date: "2021-01-14",
 		amount: 200,
 		type: "expense",

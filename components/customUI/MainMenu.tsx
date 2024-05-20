@@ -5,6 +5,7 @@ import {
 	ArrowUpToLine,
 	CalendarRangeIcon,
 	ClipboardMinus,
+	ClipboardPlus,
 	Handshake,
 	LogIn,
 	LogOut,
@@ -24,9 +25,9 @@ type LinkType = {
 const MainMenu = () => {
 	const Links: LinkType[] = [
 		{
-			tag: "Main",
-			url: "/reports/main",
-			icon: <ClipboardMinus className='w-12 h-12' />,
+			tag: "NEW",
+			url: "/transactions/new",
+			icon: <ClipboardPlus className='w-12 h-12' />,
 		},
 		{
 			tag: "Income",
@@ -58,8 +59,8 @@ const MainMenu = () => {
 
 	// change link colors depending on tag
 	const changeLinkColor = (link: LinkType) => {
-		if (link.tag === "Main") {
-			return " flex flex-col items-center hover:bg-primary p-2 rounded-full w-15 h-16 text-lime-700";
+		if (link.tag === "NEW") {
+			return " flex flex-col items-center hover:bg-cyan-500 p-2 rounded-full w-15 h-16 text-lime-700";
 		} else if (link.tag === "Income") {
 			return "flex flex-col items-center hover:bg-primary p-2 rounded-full w-15 h-16 text-green-700";
 		} else if (link.tag === "Savings") {
