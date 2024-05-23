@@ -28,6 +28,22 @@ export const incomes = [
 	"other",
 ];
 
-export const savings = ["sacco", "insurance", "bond", "mmf", "other"];
+export const savings = [
+	"sacco",
+	"insurance",
+	"bond",
+	"mmf",
+	"emergency fund",
+	"retirement",
+	"other",
+];
 
-export const investment = ["shares", "general", "other"];
+export const investment = [
+	"shares",
+	"general",
+	"stocks",
+	"bonds",
+	"real estate",
+	"mutual funds",
+	"other",
+];

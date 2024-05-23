@@ -37,6 +37,7 @@ export const TransactionsFilter = () => {
 		} else if (item === "amount") {
 			return amountsortparams;
 		}
+		return null;
 	}
 	// updates params
 	function handleSearchParams(paramItem: string, paramValue: string) {
@@ -60,49 +61,85 @@ export const TransactionsFilter = () => {
 
 	return (
 		<ScrollArea className='w-full whitespace-nowrap rounded-md border spacing-x-4 mx-auto'>
-			<div className='mx-auto flex w-max space-x-4 p-3 text-white dark:text-cyan-400'>
+			<div className='mx-auto flex w-max space-x-4 p-3 text-white dark:text-cyan-400 transition-all ease-linear'>
 				<Badge
-					className={cn(" cursor-pointer  ")}
+					className={cn(
+						` cursor-pointer hover:bg-lime-00 transition-all ease-linear ${
+							typeparams === "expense" && "bg-lime-400 hover:bg-sky-900"
+						} `,
+					)}
 					onClick={() => handleSearchParams("type", "expense")}>
 					Expenses
 				</Badge>
 				<Badge
-					className={cn(" cursor-pointer ")}
+					className={cn(
+						` cursor-pointer hover:bg-lime-300 transition-all ease-linear ${
+							typeparams === "saving" && "bg-lime-400 hover:bg-sky-900"
+						} `,
+					)}
 					onClick={() => handleSearchParams("type", "saving")}>
 					Savings
 				</Badge>
 				<Badge
-					className={cn(" cursor-pointer ")}
+					className={cn(
+						` cursor-pointer hover:bg-lime-300 transition-all ease-linear ${
+							typeparams === "income" && "bg-lime-400 hover:bg-sky-900"
+						} `,
+					)}
 					onClick={() => handleSearchParams("type", "income")}>
 					Incomes
 				</Badge>
 				<Badge
-					className={cn(" cursor-pointer ")}
+					className={cn(
+						` cursor-pointer hover:bg-lime-300 transition-all ease-linear ${
+							typeparams === "transfer" && "bg-lime-400 hover:bg-sky-900"
+						} `,
+					)}
 					onClick={() => handleSearchParams("type", "transfer")}>
 					Transfer
 				</Badge>
 				<Badge
-					className={cn(" cursor-pointer ")}
+					className={cn(
+						` cursor-pointer hover:bg-lime-300 transition-all ease-linear ${
+							categoryParams === "salary" && "bg-lime-400 hover:bg-sky-900"
+						} `,
+					)}
 					onClick={() => handleSearchParams("category", "salary")}>
 					Salaries
 				</Badge>
 				<Badge
-					className={cn(" cursor-pointer ")}
+					className={cn(
+						` cursor-pointer hover:bg-lime-300 transition-all ease-linear ${
+							categoryParams === "freelance" && "bg-lime-400 hover:bg-sky-900"
+						} `,
+					)}
 					onClick={() => handleSearchParams("category", "freelance")}>
 					Gigs
 				</Badge>
 				<Badge
-					className={cn(" cursor-pointer ")}
+					className={cn(
+						` cursor-pointer hover:bg-lime-300 transition-all ease-linear ${
+							typeparams === "investment" && "bg-lime-400 hover:bg-sky-900"
+						} `,
+					)}
 					onClick={() => handleSearchParams("type", "investment")}>
 					Invests
 				</Badge>
 				<Badge
-					className={cn(" cursor-pointer ")}
+					className={cn(
+						` cursor-pointer hover:bg-lime-300 transition-all ease-linear ${
+							amountsortparams === "asc" && "bg-lime-400 hover:bg-sky-900"
+						} `,
+					)}
 					onClick={() => handleSearchParams("amount", "asc")}>
 					Amount <ArrowUp className='text-base' />
 				</Badge>
 				<Badge
-					className={cn(" cursor-pointer ")}
+					className={cn(
+						` cursor-pointer hover:bg-lime-300 transition-all ease-linear ${
+							amountsortparams === "desc" && "bg-lime-400 hover:bg-sky-900"
+						} `,
+					)}
 					onClick={() => handleSearchParams("amount", "desc")}>
 					Amount <ArrowDown className='text-base' />
 				</Badge>
