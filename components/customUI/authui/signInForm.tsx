@@ -100,6 +100,15 @@ const SignInForm = () => {
 					type='submit'>
 					{isSubmitting ? "Signing in..." : "Sign in"}
 				</Button>
+
+				<div className='w-full flex items-center justify-center gap-4 text-sm mt-4 '>
+					<p className='opacity-75'>New user?</p>
+					<Link
+						className='text-cyan-700 hover:text-cyan-300 underline'
+						href='/sign-up'>
+						Create Account
+					</Link>
+				</div>
 			</div>
 		</form>
 	);
