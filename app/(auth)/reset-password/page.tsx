@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -117,6 +118,15 @@ const ResetPasswordPage = () => {
 						type='submit'>
 						{isSubmitting ? "Updating..." : "Reset"}
 					</Button>
+				</div>
+
+				<div className='w-full flex items-center justify-end gap-4 px-4'>
+					<p className='text-xs'>Existing User?</p>
+					<Link
+						className='text-cyan-700 hover:text-cyan-300 underline'
+						href='/sign-in'>
+						Sign In
+					</Link>
 				</div>
 			</form>
 		</div>

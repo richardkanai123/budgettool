@@ -14,7 +14,7 @@ const formSchema = z
 				required_error: "Username is required",
 				invalid_type_error: "Username must be a string",
 			})
-			.min(6, "Username must be atleast 6 characters"),
+			.min(5, "Username must be atleast 6 characters"),
 		email: z
 			.string({
 				required_error: "Email is required",
@@ -25,7 +25,14 @@ const formSchema = z
 				required_error: "Password is required",
 				invalid_type_error: "Password must be a string",
 			})
-			.min(8, "Password must be at least 8 characters"),
+			.min(8, "Password must be at least 8 characters")
+			.regex(
+				/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+				{
+					message:
+						"Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character",
+				},
+			),
 		confirmPassword: z
 			.string({
 				required_error: "Confirm Password is required",
@@ -37,7 +44,6 @@ const formSchema = z
 		message: "Passwords do not match",
 		path: ["confirmPassword"], // Set the path of the error
 	});
-
 const SignUpForm = () => {
 	const {
 		register,

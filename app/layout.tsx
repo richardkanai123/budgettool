@@ -33,7 +33,7 @@ export default function RootLayout({
 		<html
 			lang='en'
 			suppressHydrationWarning>
-			<body className='bg-gray-200 dark:bg-slate-900'>
+			<body className=''>
 				<div className='relative w-screen h-full  data-[text-primary] dark:data-[text-sky-900] max-w-screen-md mx-auto overflow-x-hidden'>
 					<ThemeProvider
 						attribute='class'
