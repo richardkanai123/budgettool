@@ -1,11 +1,14 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { CreateNewUser } from "@/lib/actions";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 const formSchema = z
 	.object({
@@ -45,20 +48,68 @@ const formSchema = z
 		path: ["confirmPassword"], // Set the path of the error
 	});
 const SignUpForm = () => {
+	const { toast } = useToast();
+	const Router = useRouter();
 	const {
 		register,
 		handleSubmit,
 		reset,
-		formState: { errors, isSubmitting, isSubmitSuccessful },
+		formState: { errors, isSubmitting },
 	} = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 	});
 
+	// creates new user
+
 	const InputStyles = `w-full md:w-3/4 mx-auto bg-gray-200 dark:bg-slate-700 p-2 text-lg font-semibold text-lime-950 dark:text-white ring-0 outline-none border-0 focus:border-b-2 border-blue-500 rounded-sm placeholder:text-sm placeholder:font-light invalid:border-b-red`;
 	return (
 		<form
-			onSubmit={handleSubmit((data) => {
-				console.log(data);
+			onSubmit={handleSubmit(async (data) => {
+				try {
+					const res = await CreateNewUser(data);
+					console.log(res);
+					if (res.status !== 201) {
+						const data = await res.json();
+
+						toast({
+							title: "⚠ Failed ⚠.",
+							description: data.message as string,
+							action: (
+								<ToastAction
+									onClick={() => Router.refresh()}
+									altText='Refresh'>
+									Refresh
+								</ToastAction>
+							),
+						});
+					}
+
+					toast({
+						title: " Success ✅.",
+						description: "Registered new user.",
+						action: (
+							<ToastAction
+								onClick={() => Router.push("/sign-in")}
+								altText='Sign in'>
+								Sign in{" "}
+							</ToastAction>
+						),
+					});
+					reset();
+				} catch (error: any) {
+					console.log(error);
+					toast({
+						title: "⚠ Error ⚠.",
+						description: error?.message as string,
+						action: (
+							<ToastAction
+								onClick={() => Router.refresh()}
+								altText='Refresh'>
+								Refresh
+							</ToastAction>
+						),
+					});
+				}
 			})}
 			className='w-full max-w-[500px] bg-white dark:bg-slate-950 shadow-sm rounded border-t-4 border-lime-400 p-4 mx-auto space-y-6  '
 			autoComplete='false'>
@@ -133,13 +184,13 @@ const SignUpForm = () => {
 				)}
 			</div>
 
-			<div className='w-full'>
+			{/* <div className='w-full'>
 				{isSubmitSuccessful && (
 					<p className='text-green-500 text-center'>
 						Successfully signed as user
 					</p>
 				)}
-			</div>
+			</div> */}
 
 			<div className='w-full flex items-center justify-end gap-4 px-4'>
 				<p className='text-xs'>Existing User?</p>
