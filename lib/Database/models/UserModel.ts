@@ -1,6 +1,7 @@
+import { UserType } from "@/lib/types";
 import mongoose, { Schema } from "mongoose";
 
-const UserSchema = new Schema(
+const UserSchema: Schema<UserType> = new Schema(
 	{
 		username: {
 			type: String,

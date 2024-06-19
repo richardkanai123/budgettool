@@ -8,12 +8,11 @@ const ThemeToogle = () => {
 		<Button
 			onClick={() => setTheme(theme === "light" ? "dark" : "light")}
 			className='cursor-pointer min-w-fit rounded-full ring-0 outline-none hover:bg-transparent flex-1'
-			variant='ghost'
-			asChild>
+			variant='ghost'>
 			{theme === "light" ? (
-				<MoonIcon className='h-9 w-9 text-amber-300' />
+				<MoonIcon className='w-6 h-6 text-amber-300' />
 			) : (
-				<SunIcon className='h-9 w-9 text-white' />
+				<SunIcon className='w-6 h-6 text-white' />
 			)}
 		</Button>
 	);

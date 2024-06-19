@@ -6,14 +6,11 @@ export const CreateNewUser = async (data: {
 	password: string;
 	confirmPassword: string;
 }) => {
-	console.log(BaseURL);
-
 	if (!BaseURL) {
 		throw new Error("URL Error");
 	}
 
-	const targetUrl = `${BaseURL}/api/auth/users`;
-	console.log(targetUrl);
+	const targetUrl = `${BaseURL}/api/users`;
 
 	const res = fetch(targetUrl, {
 		method: "POST",
