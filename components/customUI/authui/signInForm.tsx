@@ -32,7 +32,7 @@ const formSchema = z.object({
 			required_error: "Password is required",
 			invalid_type_error: "Password must be a string",
 		})
-		.min(8, "Password must be atleast 8 characters"),
+		.min(6, "Password must be atleast 6 characters"),
 });
 const SignInForm = () => {
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -48,10 +48,32 @@ const SignInForm = () => {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(async (data) => {
-					await signIn("credentials", {
-						email: data.email,
-						password: data.password,
-					});
+					try {
+						const res = await signIn("credentials", {
+							email: data.email,
+							password: data.password,
+							redirect: false,
+						});
+						if (!res?.ok || res.error) {
+							// error toast
+							toast({
+								title: "Sign in Failed",
+								description: `${res?.error as string}`,
+							});
+						}
+						console.log(res);
+						if (res?.ok) {
+							Router.replace("/");
+						}
+					} catch (error: any) {
+						if (error) {
+							// error toast
+							toast({
+								title: "Sign in Failed",
+								description: `${error.message as string}`,
+							});
+						}
+					}
 				})}
 				className='mx-auto space-y-4 w-full p-2 max-w-[500px]'>
 				<FormField
@@ -94,6 +116,15 @@ const SignInForm = () => {
 					type='submit'>
 					Submit
 				</Button>
+
+				<div className='mt-4 text-sm w-full text-center transition-all ease-linear delay-400'>
+					<p className=''>New User?</p>
+					<Link
+						className='text-purple-500 underline hover:uppercase'
+						href={"/sign-up"}>
+						Create Account
+					</Link>
+				</div>
 			</form>
 		</Form>
 	);

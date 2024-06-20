@@ -3,6 +3,8 @@ import UserModel from "@/lib/Database/models/UserModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 
+const rounds = process.env.NEXT_SALTROUND;
+
 // Creates a new user from the given data on sign up
 export async function POST(req: NextRequest) {
 	try {
@@ -36,7 +38,6 @@ export async function POST(req: NextRequest) {
 		}
 
 		// Salt
-		const rounds = process.env.NEXT_SALTROUND;
 		if (!rounds) {
 			throw new Error("Salt rounds are not defined");
 		}

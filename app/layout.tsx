@@ -34,16 +34,18 @@ export default function RootLayout({
 			lang='en'
 			suppressHydrationWarning>
 			<body className=''>
-				<div className='relative w-screen h-full  data-[text-primary] dark:data-[text-sky-900] max-w-screen-md mx-auto overflow-x-hidden'>
+				<div className='relative w-full h-full  data-[text-primary] dark:data-[text-sky-900] max-w-screen-md mx-auto overflow-x-hidden'>
 					<ThemeProvider
 						attribute='class'
 						defaultTheme='light'
 						enableSystem
 						disableTransitionOnChange>
-						<div className='z-10 sticky top-0 bottom-0 left-0 right-0 w-full max-w-screen-md mx-auto flex flex-col px-1 py-0 border-b border-gray-300 dark:border-slate-700 bg-blend-overlay backdrop-blur-xl  '>
+						<header className='z-10 sticky top-0 bottom-0 left-0 w-full max-w-screen-md mx-auto flex flex-col px-1 py-0 border-b border-gray-300 dark:border-slate-700 bg-blend-overlay backdrop-blur-xl  '>
 							<Header />
-						</div>
-						<main className='min-h-screen pt-4 my-0 mx-auto'>{children}</main>
+						</header>
+						<main className='w-full min-h-screen pt-4 my-0 mx-auto '>
+							{children}
+						</main>
 						<Toaster />
 					</ThemeProvider>
 				</div>

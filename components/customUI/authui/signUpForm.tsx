@@ -38,11 +38,11 @@ const formSchema = z.object({
 			required_error: "Password is required",
 			invalid_type_error: "Password must be a string",
 		})
-		.min(6, "Password must be at least 6 characters"),
-	// .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/, {
-	// 	message:
-	// 		"Password must be at least 6 characters long and contain at least one letter, one number, and one special character",
-	// }),
+		.min(6, "Password must be at least 6 characters")
+		.regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/, {
+			message:
+				"Password must be at least 6 characters long and contain at least one letter, one number, and one special character",
+		}),
 	confirmPassword: z
 		.string({
 			required_error: "Confirm Password is required",

@@ -14,44 +14,56 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 				email: {},
 				password: {},
 			},
-			authorize: async (credentials): Promise<User | null> => {
-				let user = null;
+			authorize: async (credentials) => {
+				const BaseUrl = process.env.NEXT_PUBLIC_BASEURL;
 
-				await ConnectDb();
+				try {
+					const Res = await fetch(`${BaseUrl}/api/users/login`, {
+						cache: "no-cache",
+						body: JSON.stringify({
+							email: credentials.email,
+							password: credentials.password,
+						}),
+						method: "POST",
+					});
+					const errorMessage = await Res.json();
+					// wrong credentials case / no user case
+					if (Res.status === 403 || Res.status === 417 || Res.status === 400) {
+						return null;
+					}
 
-				const existingUser: UserType | null = await UserModel.findOne({
-					email: credentials?.email,
-				}).lean<UserType>();
-
-				if (!existingUser) {
-					console.error("No user found with the email: ", credentials?.email);
-					throw new Error("User does not exist");
+					// user and credentials match case
+					if (Res.status === 200) {
+						const FoundUser = await Res.json();
+						console.log(FoundUser);
+						return FoundUser;
+					}
+				} catch (error: any) {
+					throw new Error(error?.message as string);
+					return null;
 				}
-
-				const isValidPassword = await bcrypt.compare(
-					credentials?.password as string,
-					existingUser.password as string,
-				);
-
-				if (!isValidPassword) {
-					console.error("Invalid password for user: ", credentials?.email);
-					throw new Error("Invalid password");
-				}
-
-				console.log("user found");
-
-				// Remove the password field before returning the user object
-				const { password, ...userWithoutPassword } = existingUser;
-
-				return {
-					...userWithoutPassword,
-					id: userWithoutPassword._id.toString(),
-				};
 			},
 		}),
 	],
 
-	// pages: {
-	// 	signIn: "/sign-in",
-	// },
+	callbacks: {
+		async jwt({ token, user }) {
+			if (user) {
+				// token.id = user.id;
+				token.email = user.email;
+			}
+			return token;
+		},
+
+		async session({ session, token }) {
+			if (session.user) {
+				// session.user.id = token.id as string;
+				session.user.email = token.email as string;
+			}
+			return session;
+		},
+	},
+	pages: {
+		signIn: "/sign-in",
+	},
 });

@@ -19,14 +19,7 @@ const Header = () => {
 				<Link
 					href='/profile'
 					className='p-1 relative object-cover'>
-					<Image
-						src='https://avatar.iran.liara.run/username?username=richardkanai123&size=40'
-						quality={100}
-						width={40}
-						height={40}
-						className='rounded-full object-cover flex-1 ring-0 outline-none hover:bg-transparent'
-						alt='username'
-					/>
+					Profile
 				</Link>
 			</div>
 		</div>
